@@ -11,6 +11,7 @@ import {
 } from "@mui/material"
 
 import Home from './components/Home/Home';
+import Auth from './components/Auth/Auth';
 
 const App: React.FC = () => {
 
@@ -45,6 +46,10 @@ return (
             {/*Force redirect form root to home*/}
             <Route path="/" element={<Navigate replace to="/Home" />} />
             <Route path="/Home" element={<Home setMode={setMode} mode={mode}/>} />
+          
+            {/*Auth*/}
+            <Route path="/auth" element={<Auth />} />
+          
           </Routes>
         </Container>
 
