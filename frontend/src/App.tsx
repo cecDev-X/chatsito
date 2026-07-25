@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useMemo, useState} from 'react';
 import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  Box,
+  createTheme,
+  ThemeProvider,
+  PaletteMode,
+  CssBaseline,
+  Container,
+} from "@mui/material"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Home from './components/Home/Home';
+
+const App: React.FC = () => {
+
+  const [mode, setMode] = useState<PaletteMode>('light');
+
+  const theme = useMemo(() => createTheme({
+    palette: {
+      mode,
+      primary: { main: '#1976d2' },
+      secondary: { main: '#dc004e' },
+      background: {
+        default: mode === 'light' ? '#f4f7f6' : '#121212',
+        paper: mode === 'light' ? '#fff' : '#1e1e1e'
+      },
+    },
+    shape: { borderRadius: 8 },
+    components: {
+      MuiButton: { styleOverrides: { root: { textTransform: 'none', borderRadius: 8 } } },
+      MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
+    },
+  }),
+    [mode]);
+    
+return (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <BrowserRouter>
+      <Box sx={{ minHeight: '100VH', display: 'flex', flexDirection: 'column', bgcolor: 'background.default', color: 'text.primary' }}>
+        {/*Navbar*/}
+        <Container maxWidth="xl" sx={{ flex: 1, py: 2 }}>
+          <Routes>
+            {/*Force redirect form root to home*/}
+            <Route path="/" element={<Navigate replace to="/Home" />} />
+            <Route path="/Home" element={<Home setMode={setMode} mode={mode}/>} />
+          </Routes>
+        </Container>
+
+      </Box>
+    </BrowserRouter>
+  </ThemeProvider>
+)
 }
-
 export default App;
