@@ -2,6 +2,7 @@ import{ COMMENT, CREATE, DELETE, END_LOADING, FETCH_ALL, FETCH_BY_SEARCH, FETCH_
 import * as api from "../../api/index"
 import {Dispatch} from "redux";
 import {Post} from "../../types";
+//import path from "path";
 
 export const getPost= (id: string)=> async (dispatch: Dispatch) =>{ 
     try{

@@ -4,3 +4,5 @@
 ### -Esperanza Chavez Edwin Alexis
 
 # Maquinaria Trabajando
+
+agregaré web socket
