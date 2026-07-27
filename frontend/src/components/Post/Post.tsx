@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import {Post as PostType} from '../../types'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { commentPost, deletePost, likePost, updatePost } from '../../Store/actions/posts';
+import { commentPost, deletePost, likePost, updatePost } from '../../store/actions/posts';
 import { Favorite, MoreVert } from '@mui/icons-material';
 import { Avatar,Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
 import moment from 'moment';
@@ -52,7 +52,7 @@ useEffect(()=>{
  const handleSave = async ()=> {
     if(!editFormData._id) return;
     setIsEditMode(false);
-    await dispatch(updatePost(editFormData._id, {...editFormData}))
+    await dispatch(updatePost(editFormData._id, editFormData));
  }
 
  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {

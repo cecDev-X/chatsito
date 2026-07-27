@@ -76,7 +76,7 @@ const Feed: React.FC<FeedProps> = ({ profileId, grid = false }) => {
 
   if (!posts.length && !isLoading) return (
     <Box sx={{ flex: 8, p: 2, textAlign: "center" }}>
-        <Typography variant="h6" color="text.secondary">No Posts found.</Typography>
+        <Typography variant="h6" color="text.secondary">Nada nuevo por hoy...</Typography>
     </Box>
   )
 

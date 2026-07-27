@@ -62,7 +62,7 @@ export const createPost= (post: any, navigate?:(path: string) => void)=> async (
     }
 }
 
-export const updatePost= (id: string, post: Post) => async (dispatch: Dispatch) => {
+export const updatePost= (id: string, post: Partial<Post>) => async (dispatch: Dispatch) => {
     try{
         const{data} = await api.updatePost(id, post);
         dispatch({type: UPDATE, payload: data.data || data});
