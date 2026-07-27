@@ -24,7 +24,7 @@ const Sidebar : React.FC<sidebarProps> = ({ mode, setMode }) => {
     const navigate = useNavigate();
     const authData = useSelector((state: RootState)=> state.auth.authData);
     const user = authData || JSON.parse(localStorage.getItem('profile') || 'null');
-    const userId = user?.result?._id;
+    const userId = user?.result?.id;
 
     const handleNavigate = (path: string) => {
         navigate(path)

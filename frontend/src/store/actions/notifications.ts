@@ -3,7 +3,7 @@ import * as api from "../../api/index";
 
 const getUserId = () => {
     const user = JSON.parse(localStorage.getItem("profile") || "{}");
-    return user?.result?._id || null;
+    return user?.result?.id || null;
 }
 
 export const getNotifyForUser = () => async (dispatch: any) => {

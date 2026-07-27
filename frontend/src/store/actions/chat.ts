@@ -14,7 +14,7 @@ import {v4 as uuidv4} from 'uuid';
 
 const getUserId = () => {
     const user = JSON.parse(localStorage.getItem('profile') || null);
-    return user?.result?._id || null;
+    return user?.result?.id || null;
 }
 
 export const sendNewMessage = (content, sender, recever) => async (dispatch: any) => {

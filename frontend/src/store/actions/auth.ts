@@ -4,7 +4,7 @@ import * as api from '../../api/index';
 export const getUserData = () => async(dispatch: any) => {
     try{
         var user= JSON.parse(localStorage.getItem('profile') || '{}');
-        const userId= String(user?.result?._id);
+        const userId= String(user?.result?.id);
         if(userId){
             const {data} = await api.fechUserProfile(userId);
             dispatch({ type: GET_USER_DATA, payload: data.user})

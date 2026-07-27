@@ -17,7 +17,7 @@ const RightBar: React.FC = ()=>{
     return JSON.parse(localStorage.getItem('profile') || 'null');
   }, [authData])
 
-  const userId = user?.result?._id;
+  const userId = user?.result?.id;
   const [suggestedUsers, setSuggestedUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 

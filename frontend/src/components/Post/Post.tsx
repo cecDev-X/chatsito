@@ -1,5 +1,3 @@
-
-
 import { useDispatch } from 'react-redux';
 import {Post as PostType} from '../../types'
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +15,7 @@ interface PostProps {
 const Post = ({ post, compact =false}: PostProps) => {
 
  const user = JSON.parse(localStorage.getItem('profile') || 'null');
- const userId = user?.result?._id;
+ const userId = user?.result?.id;
 
  const dispatch = useDispatch<any>();
  const navigate = useNavigate();
@@ -52,7 +50,7 @@ useEffect(()=>{
  const handleSave = async ()=> {
     if(!editFormData._id) return;
     setIsEditMode(false);
-    await dispatch(updatePost(editFormData._id, editFormData));
+    await dispatch(updatePost(editFormData._id, {...editFormData})) //error aqui 
  }
 
  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {

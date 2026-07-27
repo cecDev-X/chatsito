@@ -17,7 +17,7 @@ const Feed: React.FC<FeedProps> = ({ profileId, grid = false }) => {
   const {posts, isLoading, numberOfPages} = useSelector((state: RootState)=> state.posts)
 
   const user = useMemo(()=> JSON.parse(localStorage.getItem('profile') || 'null'), [])
-  const userId = user?.result?._id || null;
+  const userId = user?.result?.id || null;
 
   const [page, setPage] = useState(1);
   const [fetchingMore, setFetchingMore] = useState(false);
