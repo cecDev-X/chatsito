@@ -16,7 +16,7 @@ class WebSocketServiceNotify {
             if(!userId || !url) return null;
             if(!this._ws || (this.ws.readyState !== WebSocket.OPEN && this._ws.readyState !== WebSocket.CONNECTING)){
                 console.log("Conexion web socket establecida");
-                this._ws = new WebSocket();
+                this._ws = new WebSocket(`${url}${userId}`);
             }
 
         }catch(error){

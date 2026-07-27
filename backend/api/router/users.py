@@ -14,11 +14,12 @@ UserRouter = APIRouter()
 @UserRouter.post('/signup', status_code=status.HTTP_201_CREATED)
 async def createUser(user: CraeteUser):
     try:
-        return await UserService.createUser(user)
-    except:
+        result = await UserService.createUser(user)
+        return result
+    except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content={"message":"User Already Exist"}
+            content={"message": str(e)}
         )
 
 # Login user

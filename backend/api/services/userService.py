@@ -21,9 +21,10 @@ class UserService:
 
             craeteUser = await user_in.save()
             token = signJWT(str(craeteUser.id))
-            return {"result": user_in , "token":token['acess_token']}
+            return {"result": {"id": str(craeteUser.id), "name": user_in.name, "email": user_in.email}, "token": token['acess_token']}
         except Exception as e:
              print("err", e)
+             raise
 
 # Login user
     @staticmethod
@@ -33,9 +34,8 @@ class UserService:
             return None
         if not  password_context.verify(userBody.password, user.password):
             return None 
-        # TODO generete token
         token = signJWT(str(user.id))
-        return {"result":user, "token":token['acess_token']}
+        return {"result": {"id": str(user.id), "name": user.name, "email": user.email}, "token": token['acess_token']}
 
 
 
