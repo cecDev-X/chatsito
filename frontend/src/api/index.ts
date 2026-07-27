@@ -51,7 +51,7 @@ export const signUp = (formData: any): Promise<AxiosResponse<AuthData>> => {
     return api.post('user/signup', formData);
 }
 
-export const fetchUserProfile = (id: string): Promise<AxiosResponse<{user: User, posts: Post[], postsCount?: number}>> => {
+export const fechUserProfile = (id: string): Promise<AxiosResponse<{user: User, posts: Post[], postsCount?: number}>> => {
     const api = createAPI();
     return api.get(`user/getUser/${id}`);
 }

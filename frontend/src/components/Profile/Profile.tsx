@@ -32,7 +32,7 @@ const Profile: React.FC = ()=> {
         if(!ProfileID) return;
         setIsLoading(true);
         try {
-            const {data} = await api.fetchUserProfile(ProfileID);
+            const {data} = await api.fechUserProfile(ProfileID);
             console.log("data", data)
             setUserData({...data?.user, userPostsCount: data?.postsCount || 0});
         } catch (error) {
