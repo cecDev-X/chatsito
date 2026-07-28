@@ -12,6 +12,10 @@ import {
 
 import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
+import Profile from './components/Profile/Profile';
+import NotificationList from './components/Notification/NotificationList';
+import NavBar from './components/NavBar/NavBar';
+import Search from './components/Search/Search';
 
 const App: React.FC = () => {
 
@@ -41,6 +45,7 @@ return (
     <BrowserRouter>
       <Box sx={{ minHeight: '100VH', display: 'flex', flexDirection: 'column', bgcolor: 'background.default', color: 'text.primary' }}>
         {/*Navbar*/}
+        <NavBar />
         <Container maxWidth="xl" sx={{ flex: 1, py: 2 }}>
           <Routes>
             {/*Force redirect form root to home*/}
@@ -49,6 +54,15 @@ return (
           
             {/*Auth*/}
             <Route path="/auth" element={<Auth />} />
+          
+            {/*Profile*/}
+            <Route path="/Profile/:ProfileID" element={<Profile />} />
+
+            {/*Notifications*/}
+            <Route path="/Notification" element={<NotificationList />} />
+
+            {/*Search*/}
+            <Route path="/Search" element={<Search />} />
           
           </Routes>
         </Container>

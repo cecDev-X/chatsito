@@ -85,7 +85,7 @@ const Add: React.FC = ()=> {
           <Stack spacing={2}>
             <TextField 
               fullWidth
-              label="Title"
+              label="Titulo"
               variant='outlined'
               size='small'
               value={postData.title}
@@ -95,14 +95,14 @@ const Add: React.FC = ()=> {
               fullWidth
               multiline
               rows={4}
-              label="What's on your mind!"
+              label="¿Que estas pensando?"
               variant='outlined'
               value={postData.message}
               onChange={(e)=> setPostData({...postData, message: e.target.value})}
               />     
 
               <Box>
-               <Typography variant='caption' color='text.secondary'>Add an Image</Typography>
+               <Typography variant='caption' color='text.secondary'>Agregar Imagen</Typography>
                <Box  sx={{border:'1px dashed #ccc', p: 1, borderRadius: 1, mt:1}}>
                    <input
                         type="file"

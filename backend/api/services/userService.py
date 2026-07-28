@@ -109,21 +109,15 @@ class UserService:
     @staticmethod
     async def GetSugUsers(id:str):
         try:
-            AllSugUsers = []
             MainUser = await User.find_one({"_id": ObjectId(id)})
+            if not MainUser:
+                return {"users": []}
+            
+            excluded_ids = [str(MainUser.id)] + MainUser.following + MainUser.followers
+            excluded_object_ids = [ObjectId(uid) for uid in excluded_ids if uid]
 
-            if MainUser:
-                for FoIdes in MainUser.following:
-                    fuser = await User.find_one({"_id": ObjectId(FoIdes)})
-                    for i in fuser.followers:
-                        if not str(i) == str(MainUser.id):
-                            lastf = await User.find_one({"_id": ObjectId(i)})
-                            AllSugUsers.append(lastf)
-                    for uid in fuser.following:
-                        if not str(uid) == str(MainUser.id):
-                            lastg = await User.find_one({"_id": ObjectId(uid)})
-                            AllSugUsers.append(lastg)
-            return {"users": AllSugUsers}
+            suggested = await User.find({"_id": {"$nin": excluded_object_ids}}).limit(10).to_list()
+            return {"users": suggested}
 
         except:
             return None

@@ -48,7 +48,7 @@ const RightBar: React.FC = ()=>{
     <Box sx={{p: 2, position: 'sticky', top: 80}}>
         <Paper elevation={0} sx={{p: 2, borderRadius: 2, bgcolor: 'background.paper'}}>
             <Typography variant="subtitle1" gutterBottom sx={{ px: 2, fontWeight:'bold'}}>
-                Suggestions for You
+                Sugerencias 
             </Typography>
 
             {isLoading ? (
@@ -81,7 +81,7 @@ const RightBar: React.FC = ()=>{
                         ))
                     ) : (
                         <Typography variant="body2" color="text.secondary" sx={{px: 2}}>
-                            No suggestions at the moment.
+                            Sin sugerencias por el momento.
                         </Typography>
                     )}
                 </List>

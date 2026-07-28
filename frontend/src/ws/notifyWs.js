@@ -11,13 +11,14 @@ class WebSocketServiceNotify {
         try{
             const url= process.env.REACT_APP_RealTimeNotificationUrl;
             const profile = JSON.parse(localStorage.getItem("profile"));
-            const userId = profile?.result?._id;
+            const userId = profile?.result?.id;
 
             if(!userId || !url) return null;
-            if(!this._ws || (this.ws.readyState !== WebSocket.OPEN && this._ws.readyState !== WebSocket.CONNECTING)){
+            if(!this._ws || (this._ws.readyState !== WebSocket.OPEN && this._ws.readyState !== WebSocket.CONNECTING)){
                 console.log("Conexion web socket establecida");
                 this._ws = new WebSocket(`${url}${userId}`);
             }
+            return this._ws;
 
         }catch(error){
             console.error("Web", error);

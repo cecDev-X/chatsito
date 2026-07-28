@@ -25,7 +25,7 @@ const notificationsReducer = (state = initialState, action: any): NotificationSt
             }
         case GET_NOTIFICATIONS_FOR_USER:
             let unReadedNotify = 0;
-            const notifications = action.payload.data.notifications || [];
+            const notifications = action.payload.notifications || [];
 
             notifications.forEach((element: any) => {
                 if (!element.isreded) {

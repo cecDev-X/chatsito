@@ -144,13 +144,13 @@ const Profile: React.FC = ()=> {
                         </Box>
 
                         <Box sx={{display:'flex', justifyContent:{xs:'center', sm:'flex-start'}, gap:3 }}>
-                            <Typography variant='body1'><strong>{userData?.userPostsCount || 0}</strong> posts </Typography>
-                            <Typography variant='body1'><strong>{userData?.followers?.length || 0 }</strong> followers </Typography>
-                            <Typography variant='body1'><strong>{userData?.following?.length || 0}</strong> following </Typography>
+                            <Typography variant='body1'><strong>{userData?.userPostsCount || 0}</strong> Posts </Typography>
+                            <Typography variant='body1'><strong>{userData?.followers?.length || 0 }</strong> Seguidores </Typography>
+                            <Typography variant='body1'><strong>{userData?.following?.length || 0}</strong> Siguiendo </Typography>
                         </Box>
                         {!isEditMode ? (
                             <Typography variant='body1' sx={{whiteSpace:'pre-wrap'}}>
-                                {userData?.bio || 'No bio yet.' }
+                                {userData?.bio || 'Sin biografia' }
                             </Typography>
                         ): (
                             <TextField fullWidth multiline rows={3} variant='outlined' label="bio"

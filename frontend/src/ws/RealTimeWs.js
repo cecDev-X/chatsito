@@ -12,10 +12,10 @@ class  WebSocketService {
         try{
             const url= process.env.REACT_APP_RealTimeUrl;
             const profile = JSON.parse(localStorage.getItem("profile"));
-            const userId = profile?.result?._id;
+            const userId = profile?.result?.id;
 
              if(!userId || !url) return null;
-            if(!this._ws || (this.ws.readyState !== WebSocket.OPEN && this._ws.readyState !== WebSocket.CONNECTING)){
+            if(!this._ws || (this._ws.readyState !== WebSocket.OPEN && this._ws.readyState !== WebSocket.CONNECTING)){
                 console.log("Conexion web socket CHAT establecida", userId);
                 this._ws = new WebSocket(`${url}${userId}`);
 
@@ -48,7 +48,7 @@ class  WebSocketService {
         return () => this.removeMessageListener(fn);
     }
 
-    removeMessageListener(){
+    removeMessageListener(fn){
         this._listeners = this._listeners.filter((listener) => listener !== fn);
     }
     sendJson(payload){
