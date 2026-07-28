@@ -111,9 +111,11 @@ const Chat:React.FC =()=> {
 
         const message = {content, sender: loggedInUserId, recever: selectedUserId };
 
-        websocketService.sendJson(message);
-
-        dispatch(sendNewMessage(content, loggedInUserId, selectedUserId));
+        if (websocketService.sendJson(message)) {
+            dispatch(updateMessagesBetweenTwoUs(message, false));
+        } else {
+            dispatch(sendNewMessage(content, loggedInUserId, selectedUserId));
+        }
     }
 return (
     <Box sx={{ display: 'flex', height: 'calc(100vh - 100px)', mt:1, gap: 1}}>
