@@ -34,6 +34,6 @@ app.include_router(router, prefix="")
 app.include_router(CommentRouter, prefix="/posts")
 
 if __name__== "__main__":
-    uvicorn.run("main:app", host='0.0.0.0', port=5000, reload=True)
+    uvicorn.run("main:app", host='0.0.0.0', port=5000)
 
 # up

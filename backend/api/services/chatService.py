@@ -56,14 +56,17 @@ class ChatService:
             sender_filtter = {"sender": str(firstuid), "recever": str(seconduid)}
             recever_filtter = {"sender": str(seconduid), "recever": str(firstuid)}
 
+            total = await Message.find({"$or": [sender_filtter, recever_filtter]}).count()
             messages = await Message.find({"$or": [sender_filtter, recever_filtter]}).sort(-Message.id).limit(8).skip(int(from_val * 8)).to_list()
 
             messages.reverse()
 
-            return {"msgs": messages}
+            has_more = (int(from_val) + 1) * 8 < total
+
+            return {"msgs": messages, "hasMore": has_more}
         except Exception as e:
             print("Error on Chatrerservice", e)
-            return {"msgs": None}
+            return {"msgs": None, "hasMore": False}
     # get user unreaded msg
     @staticmethod
     async def get_user_unreaded_msg(userid):
@@ -90,9 +93,8 @@ class ChatService:
 
             result = await UnReadedMsg.find_one(filter)
 
-            await result.update(update)
-
             if result:
+                await result.update(update)
                 return {"isMarked": True}
             else :
                 return {"isMarked": False}

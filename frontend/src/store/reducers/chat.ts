@@ -40,7 +40,7 @@ const chatReducer = (state= initialState, action: any) => {
                     hasMoreMessages: hasMoreMessage
                 }
             }else{
-                return {...state, hasMoreMessages, MessagesBetweenTwoUsers: incoming};
+                return {...state, hasMoreMessages: hasMoreMessage, MessagesBetweenTwoUsers: incoming};
             }
         case GET_CHAT_LIST_USERS: {
             const onlineSet = new Set(state.onlineUserIds);

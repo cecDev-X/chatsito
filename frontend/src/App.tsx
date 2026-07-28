@@ -16,6 +16,7 @@ import Profile from './components/Profile/Profile';
 import NotificationList from './components/Notification/NotificationList';
 import NavBar from './components/NavBar/NavBar';
 import Search from './components/Search/Search';
+import Chat from './components/Chat/Chat';
 
 const App: React.FC = () => {
 
@@ -63,6 +64,9 @@ return (
 
             {/*Search*/}
             <Route path="/Search" element={<Search />} />
+
+            {/*Chat*/}
+            <Route path="/Chat" element={<Chat />} />
           
           </Routes>
         </Container>

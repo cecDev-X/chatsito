@@ -43,9 +43,9 @@ export const getUnReadMessage =() => async (dispatch: any) => {
 }
 
 
-export const getMsgBetweenTwoUsers = (beforeId, fuserid, suserid) => async (dispatch: any) => {
+export const getMsgBetweenTwoUsers = (page, fuserid, suserid) => async (dispatch: any) => {
     try{
-        const { data } = await api.getMsgsBetweenTwoUsersByNum(beforeId, fuserid, suserid);
+        const { data } = await api.getMsgsBetweenTwoUsersByNum(page, fuserid, suserid);
         dispatch({type: GET_MSG_BETWEEN_TWO_USERS_BY_NUM, payload: data});
     }catch(error){
         console.log(error);
@@ -131,11 +131,10 @@ export const updateOnlineList =(onlineUsers) => async (dispatch) => {
 }
 
 //UpdateMessagesBetweenTwoUs
-export const updateMessagesBetweenTwoUs = (message) => async(dispatch) => {
+export const updateMessagesBetweenTwoUs = (message, isReceived = true) => async(dispatch) => {
     try{
         const Message = {"_id": uuidv4(), "content": message.content, "sender": message.sender, "recever": message.recever};
-        const IsRecevedMessage =true;
-        dispatch({type: SEND_MESSAGE, payload: {Message, IsRecevedMessage}});
+        dispatch({type: SEND_MESSAGE, payload: {Message, IsRecevedMessage: isReceived}});
     }catch(error){
         console.log(error);
     }

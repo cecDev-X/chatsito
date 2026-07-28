@@ -21,7 +21,7 @@ const Profile: React.FC = ()=> {
         return JSON.parse(localStorage.getItem('profile') || 'null');
     }, [authData])
 
-    const loggedInUserId = loggedInUser?.result?._id;
+    const loggedInUserId = loggedInUser?.result?.id;
 
     const [userData, setUserData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);

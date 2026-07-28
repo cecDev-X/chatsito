@@ -80,9 +80,9 @@ export const getUnreadMsgNum =(id: string): Promise<AxiosResponse<{total: number
     return api.get(`chat/get-user-unreadedmsg?userid=${id}`);
 }
 
-export const getMsgsBetweenTwoUsersByNum =(beforeId: string | null, firstuid:string, seconduid: string): Promise<AxiosResponse<{msgs: any[], hasMore:boolean}>> => {
+export const getMsgsBetweenTwoUsersByNum =(page: number, firstuid:string, seconduid: string): Promise<AxiosResponse<{msgs: any[], hasMore:boolean}>> => {
     const api = createAPI();
-    return api.get(`chat/getmsgsbynums?beforeId=${beforeId || ''}&firstuid=${firstuid}&seconduid=${seconduid}`);
+    return api.get(`chat/getmsgsbynums?from=${page}&firstuid=${firstuid}&seconduid=${seconduid}`);
 } 
 
 export const markMsgAsReaded = (mainuid: string, otheruid: string): Promise<AxiosResponse<any>> => {

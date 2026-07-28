@@ -1,47 +1,50 @@
-class WebSocketServiceNotify {
-    constructor(){
-        if(!WebSocketServiceNotify.instance){
+class WebSocketServiceNotyfy {
+    constructor() {
+        if(!WebSocketServiceNotyfy.instance) {
             this._ws = null;
-            WebSocketServiceNotify.instance = this;
+            WebSocketServiceNotyfy.instance = this;
         }
-        return WebSocketServiceNotify.instance;
+        return WebSocketServiceNotyfy.instance;
     }
 
     createConnection(){
-        try{
-            const url= process.env.REACT_APP_RealTimeNotificationUrl;
+        try {
+            const configuredUri = process.env.REACT_APP_RealTimeNotificationUrl;
+            const uri = configuredUri?.startsWith('/')
+                ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}${configuredUri}`
+                : configuredUri;
             const profile = JSON.parse(localStorage.getItem("profile"));
             const userId = profile?.result?.id;
 
-            if(!userId || !url) return null;
-            if(!this._ws || (this._ws.readyState !== WebSocket.OPEN && this._ws.readyState !== WebSocket.CONNECTING)){
-                console.log("Conexion web socket establecida");
-                this._ws = new WebSocket(`${url}${userId}`);
+            if (!userId || !uri) return null;
+
+            if (!this._ws || (this._ws.readyState !== WebSocket.OPEN && this._ws.readyState !== WebSocket.CONNECTING)) {
+               console.log("Establishing new WebSocket connection...", userId);
+                this._ws = new WebSocket(`${uri}${userId}`);
             }
             return this._ws;
-
-        }catch(error){
-            console.error("Web", error);
+        } catch (error) {
+            console.error("WebSocket connection error:", error);
             return null;
         }
     }
 
-
-    getConnection(){
+    getConnection() {
         return this.createConnection();
-    }
+     }
 
-    closeConnection(){
-        if(this._ws){
-            if(this._ws.readyState === WebSocket.OPEN || this._ws.readyState === WebSocket.CONNECTING){
+    closeConnection() {
+        if (this._ws){
+            if (this._ws.readyState === WebSocket.OPEN || this._ws.readyState === WebSocket.CONNECTING) {
                 this._ws.close();
-
             }
             this._ws = null;
         }
 
     }
+
+
 }
 
-const instance = new WebSocketServiceNotify();
+const instance = new WebSocketServiceNotyfy();
 export default instance;
