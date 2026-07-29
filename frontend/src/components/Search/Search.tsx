@@ -41,7 +41,7 @@ const Search: React.FC = () => {
 
         <Box sx={{mb: 4, display:'flex', justifyContent:'space-between', alignItems:'center'}}>
             <Typography variant="h5" sx={{fontWeight:'bold'}}>
-                {query ? `Results for "${query}"` : `'Search Results'`}
+                {query ? `Resultados para "${query}"` : 'Resultados de búsqueda'}
             </Typography>
         <FormControlLabel
          control={
@@ -51,7 +51,7 @@ const Search: React.FC = () => {
              color="primary"
              />
          }
-         label={isSearchUsers ? "showing Users": "shoing Posts"}
+         label={isSearchUsers ? "Mostrando usuarios": "Mostrando publicaciones"}
         />
         </Box>
         {isLoading ? (
@@ -79,7 +79,7 @@ const Search: React.FC = () => {
                                 </React.Fragment>
                             ))
                         ) : (
-                            <Box sx={{ textAlign: 'center', p: 3}}>No Users Found.</Box>
+                             <Box sx={{ textAlign: 'center', p: 3}}>No se encontraron usuarios.</Box>
                         )}
                     </List>
                 ): (
@@ -94,7 +94,7 @@ const Search: React.FC = () => {
                                 ))
                             ): (
                                 <Box sx={{p:3, textAlign:'center', width: '100%'}}>
-                                    No Posts Found.
+                                     No se encontraron publicaciones.
                                 </Box>
                             )}
                         </Grid> */}
@@ -113,7 +113,7 @@ const Search: React.FC = () => {
                                         width: '100%',
                                     }}
                                     >
-                                    No Posts Found.
+                                     No se encontraron publicaciones.
                                     </Box>
                                 )}
                                 </Grid>

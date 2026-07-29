@@ -70,7 +70,7 @@ const RightBar: React.FC = ()=>{
                                       primary={<Typography variant="body2" sx={{fontWeight:'medium'}}>{sUser.name}</Typography>}
                                       secondary={
                                         <Typography variant="caption" color="text.secondary" noWrap sx={{ displa:'block'}}>
-                                            {sUser.bio || 'Active User'}
+                                            {sUser.bio || 'Usuario activo'}
                                         </Typography>
                                       }>
 

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -66,6 +67,31 @@ class UserFollowServiceTest {
         var service = new UserFollowService(mongoTemplate, notificationCreationService);
         assertThat(service.toggle(TARGET_ID, ACTOR_ID)).isNull();
         assertThat(service.toggle("not-an-object-id", ACTOR_ID)).isNull();
+    }
+
+    @Test
+    void rejectsSelfFollowWithoutReadingMongo() {
+        var service = new UserFollowService(mongoTemplate, notificationCreationService);
+
+        assertThat(service.toggle(ACTOR_ID, ACTOR_ID)).isNull();
+        verifyNoInteractions(mongoTemplate, notificationCreationService);
+    }
+
+    @Test
+    void removesSelfAndDuplicateReferencesWhileFollowing() {
+        var target = user(TARGET_ID, "Target User");
+        target.setFollowers(List.of(TARGET_ID, TARGET_ID));
+        var actor = user(ACTOR_ID, "Spring Main");
+        actor.setFollowing(List.of(ACTOR_ID, ACTOR_ID));
+        when(mongoTemplate.findById(new ObjectId(TARGET_ID), UserDocument.class)).thenReturn(target);
+        when(mongoTemplate.findById(new ObjectId(ACTOR_ID), UserDocument.class)).thenReturn(actor);
+        when(mongoTemplate.save(any(UserDocument.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        var response = new UserFollowService(mongoTemplate, notificationCreationService)
+                .toggle(TARGET_ID, ACTOR_ID);
+
+        assertThat(response.updateduser1().followers()).containsExactly(ACTOR_ID);
+        assertThat(response.updateduser2().following()).containsExactly(TARGET_ID);
     }
 
     private UserDocument user(String id, String name) {

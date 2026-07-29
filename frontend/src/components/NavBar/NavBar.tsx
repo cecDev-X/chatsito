@@ -3,10 +3,10 @@
 
 import {jwtDecode} from 'jwt-decode';
 import * as actionType from '../../store/constants/actionTypes';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AppBar, Avatar, Badge, Box, IconButton, Menu, MenuItem, Stack, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Avatar, Badge, Box, Button, IconButton, Menu, MenuItem, Stack, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { RootState } from '../../store/reducers';
 import { getUnReadMessage, updateOnlineList } from '../../store/actions/chat';
@@ -14,7 +14,7 @@ import { getNotifyForUser } from '../../store/actions/notifications';
 import WebSocketServiceNotyfy from '../../ws/notifyWs.js'
 import WebSocketService from '../../ws/RealTimeWs';
 import { Icons, Search, SearchIconWrapper, StyledInputBase } from '../MainStyles';
-import { Chat, Notifications } from '@mui/icons-material';
+import { Chat, Login, Notifications } from '@mui/icons-material';
 import logo from '../../assets/logito.png';
 
 
@@ -32,9 +32,10 @@ const NavBar: React.FC<{ id?: string}> = ({id})=> {
  const { UnReadedNotificationNumbers } = useSelector((state: RootState) => state.notifications);
  const { unReadedMessage } = useSelector((state: RootState) => state.chat)
 
- const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
- const [search, setSearch] = useState('');
- const [user, setUser] = useState<any>(authData || JSON.parse(localStorage.getItem('profile') || 'null'));
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [search, setSearch] = useState('');
+  const [user, setUser] = useState<any>(authData || JSON.parse(localStorage.getItem('profile') || 'null'));
+  const chatHandlerRef = useRef<((event: MessageEvent) => void) | null>(null);
  const open = Boolean(anchorEl);
 
  useEffect(()=>{
@@ -49,11 +50,17 @@ const NavBar: React.FC<{ id?: string}> = ({id})=> {
  useEffect(()=>{
     const token = user?.token;
     if(token){
-        const decodedToken: any = jwtDecode(token); 
-        if(decodedToken.exp * 1000 < new Date().getTime()){
-            logout();
+      try {
+        const decodedToken: any = jwtDecode(token);
+        const expiresAt = decodedToken.expires ?? decodedToken.exp;
+        if(typeof expiresAt !== 'number' || expiresAt * 1000 < Date.now()){
+            logout(true);
             return;
-        } 
+        }
+      } catch (_) {
+        logout(true);
+        return;
+      }
         
         // initilize realtime connctions 
         // todo 
@@ -91,16 +98,18 @@ const NavBar: React.FC<{ id?: string}> = ({id})=> {
         } catch (_) {}
     };
 
-    (initializeRealTime as any)._chatHandler && WebSocketService.removeMessageListener((initializeRealTime as any)._chatHandler); //HAY UN PEDO EN ESTA LINEA....
-    (initializeRealTime as any)._chatHandler = chatHandler;
+    if (chatHandlerRef.current) {
+      WebSocketService.removeMessageListener(chatHandlerRef.current);
+    }
+    chatHandlerRef.current = chatHandler;
 
     WebSocketService.addMessagelistener(chatHandler);
 
  }
 
- const logout = () => {
-    dispatch({  type: actionType.LOGOUT });
-    navigate('/Auth');
+ const logout = (sessionExpired = false) => {
+     dispatch({  type: actionType.LOGOUT });
+     navigate('/auth', sessionExpired ? {state: {sessionExpired: true}} : undefined);
     setUser(null);
     setAnchorEl(null);
     WebSocketService.closeConnection();
@@ -128,7 +137,7 @@ const NavBar: React.FC<{ id?: string}> = ({id})=> {
                   <SearchIcon />
                 </SearchIconWrapper>
              <StyledInputBase
-             placeholder='Search...'
+             placeholder='Buscar...'
              value={search}
              onChange={(e)=> setSearch(e.target.value)}
              onKeyDown={handleKeySearch}
@@ -155,12 +164,18 @@ const NavBar: React.FC<{ id?: string}> = ({id})=> {
                 </Icons>
             )}
 
+            {!user?.result && (
+                <Button color="inherit" startIcon={<Login />} onClick={() => navigate('/auth')}>
+                     Iniciar sesión
+                </Button>
+            )}
+
             {user?.result && (
                 <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                    <MenuItem onClick={()=> {handleClose(); navigate(`/Profile/${user.result.id}`)}}>
-                     Profile
+                     <MenuItem onClick={()=> {handleClose(); navigate(`/Profile/${user.result.id}`)}}>
+                     Perfil
                     </MenuItem>
-                    <MenuItem onClick={logout}>Logout</MenuItem>
+                     <MenuItem onClick={() => logout()}>Cerrar sesión</MenuItem>
                 </Menu>
             )}
             </Stack>

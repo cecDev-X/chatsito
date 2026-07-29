@@ -38,6 +38,18 @@ export const signup = (formData: any, navigate: any) => async(dispatch: any) => 
     }
 }
 
+export const googleSignIn = (credential: string, navigate: any) => async(dispatch: any) => {
+    try{
+        const { data } = await api.googleSignIn(credential);
+        dispatch({ type: AUTH, data });
+        navigate('/');
+    }catch(error: any){
+        const message = error.response?.data?.message || 'No se pudo iniciar sesión con Google';
+        dispatch({type: AUTH_ERROR, payload: message});
+        throw error;
+    }
+}
+
 export const logout= () =>(dispatch: any) => {
     dispatch({type: 'LOGOUT'});
 }

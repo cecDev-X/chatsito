@@ -19,6 +19,9 @@ legacy:
   chat-grpc:
     port: ${CHAT_GRPC_PORT:5001}
 
+google:
+  client-id: ${GOOGLE_CLIENT_ID:}
+
 management:
   endpoints:
     web:

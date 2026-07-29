@@ -25,8 +25,8 @@ const chatReducer = (state= initialState, action: any) => {
             return {...state, MessagesBetweenTwoUsers: [], hasMoreMessages: true};
 
         case GET_UNREADED_MESSAGE:
-            return {...state, unReadedMessage: action.payload.data.total,
-                MessageList: action.payload.data.messages,
+            return {...state, unReadedMessage: action.payload.total,
+                MessageList: action.payload.messages,
             }
         case GET_MSG_BETWEEN_TWO_USERS_BY_NUM:
             const incoming = action.payload.msgs || [];
@@ -69,7 +69,7 @@ const chatReducer = (state= initialState, action: any) => {
                 const n = state.unReadedMessage +1;
                 const updatedChatListUsers = state.chatListUsers.map((el: any) => {
                     if(el._id === newMsg.sender){
-                        return {...el, unReadedMessage:(el.unReadedMessage || 0) + 1};
+                        return {...el, unreadMessages:(el.unreadMessages || 0) + 1};
                     }
                     return el;
                 });
@@ -87,8 +87,8 @@ const chatReducer = (state= initialState, action: any) => {
             let rmNum =0;
             const updatedChatListUsers = state.chatListUsers.map((el: any) => {
                 if(el._id === otheruid){
-                    rmNum = el.unreadMessage || 0;
-                    return {...el, unreadedMessages: 0};
+                    rmNum = el.unreadMessages || 0;
+                    return {...el, unreadMessages: 0};
                 }
                 return el;
             });

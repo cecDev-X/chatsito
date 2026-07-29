@@ -76,7 +76,7 @@ useEffect(()=>{
 
 
  const handleDelete = async ()=> {
-    if(window.confirm("Are you sure you want to delete this post?")){
+     if(window.confirm("¿Estás seguro de que quieres eliminar esta publicación?")){
         await dispatch(deletePost(post._id));
         navigate('/');
     }
@@ -91,13 +91,13 @@ useEffect(()=>{
              &nbsp;
              {
                 likes.length > 2
-                ? (hasLikedPost ? ` You and ${likes.length -1} others` : `${likes.length} Likes`)
-                : `${likes.length} ${likes.length === 1 ? 'Like' : 'Likes'}`
+                 ? (hasLikedPost ? ` Tú y ${likes.length -1} personas más` : `${likes.length} Me gusta`)
+                 : `${likes.length} ${likes.length === 1 ? 'Me gusta' : 'Me gusta'}`
              }
             </>
         );
     }
-    return <><Favorite />&nbsp;Like</>
+     return <><Favorite />&nbsp;Me gusta</>
  }
 
  return (
@@ -115,7 +115,7 @@ useEffect(()=>{
           avatar={
             <Avatar
               src={post.CreatorImg}
-              aria-label='creator'
+               aria-label='creador'
               onClick={()=> navigate(`/Profile/${post.creator}`)}
               sx={{ cursor: 'pointer', border: '2px solid #eee'}}
               >
@@ -185,7 +185,7 @@ useEffect(()=>{
                      variant='outlined'
                      fullWidth
                      size='small'
-                     label='Add A comment...'
+                      label='Agrega un comentario...'
                      onChange={handleCommentChange}
                      value={commnetText}
                      onKeyUp={(e)=> e.key === 'Enter' && handleCommentSubmit()}
@@ -194,7 +194,7 @@ useEffect(()=>{
                             endAdornment: (
                                 <InputAdornment position='end'>
                                     <Button color='primary' size='small' onClick={handleCommentSubmit} disabled={!commnetText.trim()}>
-                                        Post
+                                         Publicar
                                     </Button>
                                 </InputAdornment>
                             )
@@ -209,29 +209,33 @@ useEffect(()=>{
         <Card sx={{margin:{xs:1, sm:3, md: 5}, p:3, borderRadius: 2}}>
          <Stack spacing={3}>
             <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                <Typography variant='h6'>Edit Post</Typography>
-                <Button color='error' variant='outlined' size='small' onClick={handleDelete}>Delete Post</Button>
+                 <Typography variant='h6'>Editar publicación</Typography>
+                 <Button color='error' variant='outlined' size='small' onClick={handleDelete}>Eliminar publicación</Button>
             </Box>
             <Box>
-                <Typography variant='caption' color='text.secondary'>Background Image</Typography>
+                 <Typography variant='caption' color='text.secondary'>Imagen de fondo</Typography>
                 <Box sx={{mt:1, border:'1px dashed #ccc', p: 2, textAlign: 'center', borderRadius: 1}}>
                     {/* <FileBase 
                     type="file" multiple={false}
                     onDone={({base64}: any) => setEditFormData({...editFormData, selectedFile: base64})}
                     /> */}
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (!file) return;
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                            setEditFormData({ ...editFormData, selectedFile: reader.result as string });
-                            };
-                            reader.readAsDataURL(file);
-                        }}
-                        />
+                     <Button component="label" variant="outlined" size="small">
+                         Seleccionar imagen
+                         <input
+                             hidden
+                             type="file"
+                             accept="image/*"
+                             onChange={(e) => {
+                                 const file = e.target.files?.[0];
+                                 if (!file) return;
+                                 const reader = new FileReader();
+                                 reader.onloadend = () => {
+                                 setEditFormData({ ...editFormData, selectedFile: reader.result as string });
+                                 };
+                                 reader.readAsDataURL(file);
+                             }}
+                             />
+                     </Button>
                 </Box>
             </Box>
 
@@ -242,7 +246,7 @@ useEffect(()=>{
             )}
 
             <TextField
-             label="Title"
+              label="Título"
              fullWidth
              name="title"
              value={editFormData.title || ''}
@@ -250,7 +254,7 @@ useEffect(()=>{
              />
 
              <TextField
-              label="Description"
+               label="Descripción"
               fullWidth
               multiline
               rows={4}
@@ -259,8 +263,8 @@ useEffect(()=>{
               onChange={handleEditChange}
               />
               <Stack direction='row' spacing={2} sx={{justifyContent:'flex-end'}}>
-                <Button onClick={()=> setIsEditMode(false)}>Cancel</Button>
-                <Button variant='contained' onClick={handleSave}>Save Changes</Button>
+                 <Button onClick={()=> setIsEditMode(false)}>Cancelar</Button>
+                 <Button variant='contained' onClick={handleSave}>Guardar cambios</Button>
               </Stack>
          </Stack>
         </Card>

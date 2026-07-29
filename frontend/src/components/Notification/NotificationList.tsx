@@ -54,7 +54,7 @@ const NotificationList: React.FC = ()=>{
     <Box sx={{ maxWidth: 800, mx: 'auto', p:{xs: 1, md: 3}}}>
         <Paper elevation={0} sx={{p:2, borderRadius: 2, bgcolor: 'background.paper'}}>
             <Typography variant="h5" gutterBottom sx={{ px: 2, py: 1, fontWeight:'bold'}}>
-                Notifications
+                 Notificaciones
             </Typography>
             <Divider />
             <List sx={{p: 0}}>
@@ -70,7 +70,7 @@ const NotificationList: React.FC = ()=>{
                     ))
                 ): (
                     <Box sx={{py: 10, textAlign: 'center'}}>
-                        <Typography color="text.secondary" > You Havve no notifications yet.</Typography>
+                         <Typography color="text.secondary" >Todavía no tienes notificaciones.</Typography>
                     </Box>
                 )}
             </List>

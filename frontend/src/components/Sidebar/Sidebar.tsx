@@ -38,7 +38,7 @@ const Sidebar : React.FC<sidebarProps> = ({ mode, setMode }) => {
                         <ListItem disablePadding>
                             <ListItemButton onClick={()=> handleNavigate('/Home')}>
                                 <ListItemIcon><HomeIcon /></ListItemIcon>
-                                <ListItemText primary="Home" />
+                                <ListItemText primary="Inicio" />
                             </ListItemButton>
                         </ListItem>
                         {user ? (
@@ -66,7 +66,7 @@ const Sidebar : React.FC<sidebarProps> = ({ mode, setMode }) => {
                             <ListItem disablePadding>
                                 <ListItemButton onClick={()=> handleNavigate("/Auth")}>
                                     <ListItemIcon><Person /></ListItemIcon>
-                                    <ListItemText primary="Authentication"/>
+                                     <ListItemText primary="Autenticación"/>
                                 </ListItemButton>
                             </ListItem>
                         )}
@@ -76,7 +76,7 @@ const Sidebar : React.FC<sidebarProps> = ({ mode, setMode }) => {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon><ModeNight /></ListItemIcon>
-                                <ListItemText primary="ModoOscuro"/>
+                                 <ListItemText primary="Modo oscuro"/>
                                 <Switch 
                                  checked={mode==="dark"}
                                  onChange={()=> setMode(mode === "light" ? "dark": "light")}
@@ -93,7 +93,6 @@ const Sidebar : React.FC<sidebarProps> = ({ mode, setMode }) => {
 }
 
 export default Sidebar;
-
 
 
 

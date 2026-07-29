@@ -12,7 +12,7 @@ const UserList: React.FC<UserListProps> = ({ userList, selectedUserId, handleUse
  return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column'}}>
         <Box sx={{  p:2, borderBottom:'1px solid', borderColor:'divider' }}>
-            <Typography variant="h6" sx={{fontWeight: 'bold'}}>Contacts</Typography>
+            <Typography variant="h6" sx={{fontWeight: 'bold'}}>Contactos</Typography>
         </Box>
         <List sx={{ flex: 1, overflowY: 'auto', p: 0}}>
             {userList.map((user, index) => (
@@ -33,7 +33,7 @@ const UserList: React.FC<UserListProps> = ({ userList, selectedUserId, handleUse
                          primary={<Typography sx={{fontWeight:user.unreadMessages > 0 ? "bold" : "medium" }} >{user.name}</Typography>}
                          secondary={
                             <Typography variant="caption" color="textSecondary" noWrap >
-                                {user?.online ? "Online": "Offline"}
+                                 {user?.online ? "En línea": "Desconectado"}
                             </Typography>
                          }
                         />

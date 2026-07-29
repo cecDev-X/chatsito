@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import moment from 'moment';
+import 'moment/locale/es';
 
 import {Provider} from 'react-redux';
 import { legacy_createStore as createStore, applyMiddleware, compose, StoreEnhancer} from 'redux';
@@ -13,6 +15,7 @@ import reducers from './store/reducers/index';
  const middlewareEnhancer = applyMiddleware(thunk as any);
 
 const store = createStore(reducers as any, middlewareEnhancer as StoreEnhancer);
+moment.locale('es');
 
 const root = ReactDOM.createRoot(document.getElementById('root')as HTMLElement);
 root.render(

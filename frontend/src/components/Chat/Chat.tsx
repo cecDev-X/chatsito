@@ -58,17 +58,6 @@ const Chat:React.FC =()=> {
         // register listerner 
         const unsub = websocketService.addMessagelistener(handleWsMessage);
 
-        // request fresh online status 
-        const ws = websocketService.getConnection();
-        if(ws){
-            const sendPing = ()=> websocketService.sendJson({ type:'requestOnline' });
-            if(ws.readyState === WebSocket.OPEN){ // ERROR 
-                sendPing()
-            } else {
-                ws.addEventListener('open', sendPing, { once: true}) //ERROR
-            }
-        }
-
         return () => {unsub();};
 
     }, [dispatch, handleWsMessage])

@@ -1,5 +1,8 @@
 import { Avatar, Box, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import moment from "moment";
+import 'moment/locale/es';
+
+moment.locale('es');
 
 
 interface NotificationProps {
@@ -10,7 +13,8 @@ interface NotificationProps {
 
 const Notification: React.FC<NotificationProps> = ({  notificationData , onClick }) => {
   const {user, deatils, createdAt, isreded } = notificationData;
-  const {name, avatar} = user || {name:'Unknown', avatar:''};
+  const {name, avatar} = user || {name:'Usuario desconocido', avatar:''};
+  const localizedDetails = deatils?.replace(/^user (.+) Start Following You$/, '$1 comenzó a seguirte');
 
   return (
     <ListItem  onClick={onClick} sx={{
@@ -36,7 +40,7 @@ const Notification: React.FC<NotificationProps> = ({  notificationData , onClick
        }
        secondary={
         <Typography variant="body2" color="text.secondary" sx={{mt: 0.5}}>
-            {deatils}
+             {localizedDetails}
         </Typography>
        }
        />

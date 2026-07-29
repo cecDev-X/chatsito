@@ -1,5 +1,7 @@
 package com.chatsito.api.user;
 
+import java.util.Map;
+
 import com.chatsito.api.auth.LegacyJwtService;
 import com.fasterxml.jackson.databind.node.NullNode;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ public class UserFollowController {
             @PathVariable String id,
             @RequestHeader(name = "Authorization", required = false) String authorization) {
         String actorId = legacyJwtService.authenticate(authorization);
+        if (actorId.equals(id)) {
+            return ResponseEntity.badRequest().body(Map.of("error", "cannot follow yourself"));
+        }
         var response = userFollowService.toggle(id, actorId);
         return ResponseEntity.ok(response == null ? NullNode.getInstance() : response);
     }

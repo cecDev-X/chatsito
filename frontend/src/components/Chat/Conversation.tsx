@@ -52,8 +52,8 @@ const Conversation: React.FC<ConversationProps> = ({
     return name.split(' ').filter(p=> p).map(n => n[0]).join('').toUpperCase().substring(0, 2);
  }
 
- const senderInitals = useMemo(()=> getInitials(currentUser?.name || 'Me'), [currentUser?.name]);
- const receiverInitials = useMemo(()=> getInitials(selectedUser?.name || 'User'), [selectedUser?.name]);
+  const senderInitals = useMemo(()=> getInitials(currentUser?.name || 'Yo'), [currentUser?.name]);
+  const receiverInitials = useMemo(()=> getInitials(selectedUser?.name || 'Usuario'), [selectedUser?.name]);
 
  /// reset sesstion when switching users 
  useEffect(()=> {
@@ -132,7 +132,7 @@ const Conversation: React.FC<ConversationProps> = ({
  if(!selectedUser) {
     return (
         <Box sx={{ flex: 1, display:'flex', alignItems:'center', justifyContent:'center'}}>
-            <Typography variant='h6' color='text.secondary'>Select A Contact To Chat</Typography>
+        <Typography variant='h6' color='text.secondary'>Selecciona un contacto para chatear</Typography>
         </Box>
     );
  }
@@ -154,7 +154,7 @@ const Conversation: React.FC<ConversationProps> = ({
             <Box>
                 <Typography variant='subtitle1' sx={{  fontWeight:'bold'}}>{selectedUser.name}</Typography>
                 <Typography variant='caption' color={selectedUser.online ? 'success.main': 'text.secondary'}>
-                    {selectedUser.online ? 'Online': 'Offline'}
+                     {selectedUser.online ? 'En línea': 'Desconectado'}
                 </Typography>
             </Box>
          </Box>
@@ -180,7 +180,7 @@ const Conversation: React.FC<ConversationProps> = ({
 
             {!hasMoreMessages && conversation.length > 0 && (
                 <Typography variant='caption' color='text.disabled' align='center' sx={{ py: 2, fontWeight: 500}}>
-                    BEGEINING OF HISOTRY
+                     INICIO DEL HISTORIAL
                 </Typography>
             )}
 
@@ -222,7 +222,7 @@ const Conversation: React.FC<ConversationProps> = ({
                           </Box>
 
                             {isSender && (
-                            <Avatar alt='Me' src={avatarUrl} sx={{ width: 38, height: 28, mb: 0.5}}>
+                             <Avatar alt='Yo' src={avatarUrl} sx={{ width: 38, height: 28, mb: 0.5}}>
                                     {senderInitals}
                                 </Avatar> 
                             )}

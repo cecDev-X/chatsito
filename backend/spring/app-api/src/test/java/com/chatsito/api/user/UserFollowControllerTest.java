@@ -1,6 +1,7 @@
 package com.chatsito.api.user;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -54,6 +55,15 @@ class UserFollowControllerTest {
         performPatch("not-an-object-id")
                 .andExpect(status().isOk())
                 .andExpect(content().string("null"));
+    }
+
+    @Test
+    void rejectsSelfFollowWithoutCallingTheService() throws Exception {
+        performPatch(ACTOR_ID)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("cannot follow yourself"));
+
+        verifyNoInteractions(followService);
     }
 
     private UserResponse response(String id, List<String> followers, List<String> following) {

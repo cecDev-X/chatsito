@@ -19,7 +19,7 @@ const Comments: React.FC<CommentsProps> = ({ post }) => {
  return (
     <Box sx={{mt: 2}}>
         <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-            Comments ({ post.comments.length })
+             Comentarios ({ post.comments.length })
         </Typography>
 
         <Box sx={{pr: 1}}>
@@ -37,7 +37,7 @@ const Comments: React.FC<CommentsProps> = ({ post }) => {
                         flex: 1
                     }}>
                 <Typography variant="caption" sx={{fontWeight: 'bold', display:'block', mb:0.5}}>
-                    {c.user?.name || 'User'}
+                     {c.user?.name || 'Usuario'}
                 </Typography>
                 <Typography variant="body2" sx={{fontSize: '0.875rem', color: 'text.primary', wordBreak: 'break-word'}}>
                     {c.value}
@@ -50,7 +50,7 @@ const Comments: React.FC<CommentsProps> = ({ post }) => {
         {hasMore && (
             <Button size="small" sx={{mt: 0.5, textTransform: 'none', color:'primary.main', fontWeight: 600}}
               onClick={()=> setIsExpanded(!isExpanded)}>
-                    {isExpanded ? 'Show less': `View All ${post.comments.length} Comments`}
+                     {isExpanded ? 'Mostrar menos': `Ver los ${post.comments.length} comentarios`}
             </Button>
         )}
     </Box>

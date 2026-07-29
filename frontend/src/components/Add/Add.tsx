@@ -46,14 +46,14 @@ const Add: React.FC = ()=> {
  return (
     <>
      <Tooltip onClick={()=> setOpen(true)}
-       title="Create Post"
+        title="Crear publicación"
        sx={{
         position: 'fixed',
         bottom: 20,
         right: {xs: 20, md: 30}
        }}
        >
-        <Fab color='primary' aria-label='add'>
+         <Fab color='primary' aria-label='agregar'>
             <AddIcon />
         </Fab>
        </Tooltip>
@@ -74,7 +74,7 @@ const Add: React.FC = ()=> {
             <CloseIcon />
           </IconButton>
           <Typography variant='h6' color='text.secodary' sx={{textAlign:'center', mb:2}}>
-            Create New Post
+             Crear nueva publicación
           </Typography>
           <UserBox sx={{mb: 2}}>
             <Avatar src={user?.result?.imageUrl} sx={{width: 40, height: 40}} />
@@ -85,7 +85,7 @@ const Add: React.FC = ()=> {
           <Stack spacing={2}>
             <TextField 
               fullWidth
-              label="Titulo"
+               label="Título"
               variant='outlined'
               size='small'
               value={postData.title}
@@ -95,33 +95,37 @@ const Add: React.FC = ()=> {
               fullWidth
               multiline
               rows={4}
-              label="¿Que estas pensando?"
+               label="¿Qué estás pensando?"
               variant='outlined'
               value={postData.message}
               onChange={(e)=> setPostData({...postData, message: e.target.value})}
               />     
 
               <Box>
-               <Typography variant='caption' color='text.secondary'>Agregar Imagen</Typography>
-               <Box  sx={{border:'1px dashed #ccc', p: 1, borderRadius: 1, mt:1}}>
-                   <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (!file) return;
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                            setPostData({ ...postData, selectedFile: reader.result as string });
-                            };
-                            reader.readAsDataURL(file);
-                        }}
-                        />
-               </Box>  
+                <Typography variant='caption' color='text.secondary'>Agregar imagen</Typography>
+                <Box  sx={{border:'1px dashed #ccc', p: 1, borderRadius: 1, mt:1}}>
+                    <Button component="label" variant="outlined" size="small">
+                        Seleccionar imagen
+                        <input
+                            hidden
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                setPostData({ ...postData, selectedFile: reader.result as string });
+                                };
+                                reader.readAsDataURL(file);
+                            }}
+                            />
+                    </Button>
+                </Box>  
               </Box>    
               {postData.selectedFile && (
                 <Box sx={{ width : '100%', height: 150, overflow: 'hidden', borderRadius: 1}}>
-                    <img src={postData.selectedFile} alt='preview' style={{ width:'100%', height:'100%' , objectFit: 'cover' }} />
+                <img src={postData.selectedFile} alt='vista previa' style={{ width:'100%', height:'100%' , objectFit: 'cover' }} />
                 </Box>
               )}   
 
@@ -132,7 +136,7 @@ const Add: React.FC = ()=> {
                onClick={handleCreatePost}
                startIcon={submitting && <CircularProgress size={20} color='inherit' />}
                >
-                {submitting ? 'Posting..': 'Post'}
+                 {submitting ? 'Publicando...': 'Publicar'}
                 </Button>  
           </Stack>
         </Box>

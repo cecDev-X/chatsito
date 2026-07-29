@@ -39,6 +39,8 @@ class WebSocketService {
 
             ws.addEventListener("open", () => {
                 this._reconnectAttempts = 0;
+                // Refresh presence after the initial connection and every reconnect.
+                this.sendJson({ type: "requestOnline" });
             });
 
             this._ws = ws;

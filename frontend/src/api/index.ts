@@ -51,6 +51,11 @@ export const signUp = (formData: any): Promise<AxiosResponse<AuthData>> => {
     return api.post('user/signup', formData);
 }
 
+export const googleSignIn = (credential: string): Promise<AxiosResponse<AuthData>> => {
+    const api = createAPI();
+    return api.post('user/google', {credential});
+}
+
 export const fechUserProfile = (id: string): Promise<AxiosResponse<{user: User, posts: Post[], postsCount?: number}>> => {
     const api = createAPI();
     return api.get(`user/getUser/${id}`);

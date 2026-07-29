@@ -3,8 +3,7 @@
 import { useParams } from 'react-router-dom';
 import * as api from '../../api/index';
 import { RootState } from '../../store/reducers';
-import {Post as PostType} from '../../types'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Avatar, Box, Button, CircularProgress, Divider, Grid, Paper, Stack, TextField, Typography } from '@mui/material';
 import Feed from '../Feed/Feed';
@@ -13,7 +12,6 @@ const Profile: React.FC = ()=> {
 
     const {ProfileID} = useParams<{ ProfileID: string }>();
     const authData = useSelector((sate: RootState) => sate.auth.authData);
-    const dispatch = useDispatch<any>();
 
     // stable user derivation
     const loggedInUser = useMemo(()=>{
@@ -27,6 +25,7 @@ const Profile: React.FC = ()=> {
     const [isLoading, setIsLoading] = useState(true);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isFollowingUpdate, setIsFollowingUpdate] = useState(false);
 
     const fetchProfileData = useCallback(async ()=> {
         if(!ProfileID) return;
@@ -60,16 +59,20 @@ const Profile: React.FC = ()=> {
     }
 
     const handleFollowAction = async () => {
-        if (!ProfileID || !loggedInUser?.token) return;
+        if (!ProfileID || !loggedInUser?.token || isFollowingUpdate) return;
+        setIsFollowingUpdate(true);
         try {
-          await api.following(ProfileID);
-          fetchProfileData();  
+          const {data} = await api.following(ProfileID);
+          if (!data) throw new Error('Follow update failed');
+          await fetchProfileData();
         } catch (error) {
-            console.error("Error toogling follow", error)
+            console.error("Error toggling follow", error)
+        } finally {
+            setIsFollowingUpdate(false);
         }
     }
 
-    const isFollowing = useMemo(()=> userData?.followers?.includes(loggedInUserId), [userData?.followers, loggedInUser])
+    const isFollowing = useMemo(()=> userData?.followers?.includes(loggedInUserId), [userData?.followers, loggedInUserId])
     const isOwnProfile = ProfileID === loggedInUserId;
 
     if(isLoading){
@@ -91,19 +94,23 @@ const Profile: React.FC = ()=> {
                             />
                             {isEditMode && (
                                 <Box sx={{mt:2, width: '100%', overflow:'hidden'}}>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e) => {
-                                            const file = e.target.files?.[0];
-                                            if (!file) return;
-                                            const reader = new FileReader();
-                                            reader.onloadend = () => {
-                                            setUserData({ ...userData, imageUrl: reader.result as string });
-                                            };
-                                            reader.readAsDataURL(file);
-                                        }}
-                                        />
+                                    <Button component="label" variant="outlined" size="small">
+                                        Seleccionar imagen
+                                        <input
+                                            hidden
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+                                                if (!file) return;
+                                                const reader = new FileReader();
+                                                reader.onloadend = () => {
+                                                setUserData({ ...userData, imageUrl: reader.result as string });
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }}
+                                            />
+                                    </Button>
                                 </Box>
                             )}
                         </Box>
@@ -113,10 +120,10 @@ const Profile: React.FC = ()=> {
                    <Grid sx={{xs:12, sm:8}}>
                     <Stack spacing={2} sx={{ textAlign:{xs:'center', sm:'left'} }}>
                         <Box sx={{ display:'flex', flexDirection:{xs:'column', sm:'row'}, alignItems:'center', gap:2 }}>
-                            {!isEditMode ? (
+                             {!isEditMode ? (
                                 <Typography variant='h4' sx={{fontWeight: 'bold'}}>{userData?.name}</Typography>
                             ) : (
-                                <TextField fullWidth variant='outlined' size='small' label="Name" value={userData?.name || ''} 
+                                 <TextField fullWidth variant='outlined' size='small' label="Nombre" value={userData?.name || ''} 
                                  onChange={(e)=> setUserData({ ...userData, name: e.target.value})}
                                  />
                             )}
@@ -124,27 +131,28 @@ const Profile: React.FC = ()=> {
                             {isOwnProfile ? (
                                 !isEditMode ? (
                                     <Button variant='outlined' size='small' onClick={()=> setIsEditMode(true)}>
-                                        Edit Profile
+                                         Editar perfil
                                     </Button>
                                 ) : (
                                     <Stack direction='row' spacing={1}>
                                         <Button variant='contained' size='small' onClick={handleUpdateProfile} disabled={isUpdating}>
-                                            {isUpdating ? 'Saving...': 'Save'}
+                                             {isUpdating ? 'Guardando...': 'Guardar'}
                                         </Button>
-                                        <Button variant='text' size='small' onClick={()=> setIsEditMode(false)}>Cancel</Button>
+                                         <Button variant='text' size='small' onClick={()=> setIsEditMode(false)}>Cancelar</Button>
                                     </Stack>
                                 )
                             ): (
                                 <Button variant={isFollowing ? 'outlined': 'contained'}
-                                 onClick={handleFollowAction}
-                                 color={isFollowing ? 'inherit': 'primary'}>
-                                    {isFollowing ? 'Unfollow': 'Follow'}
+                                  onClick={handleFollowAction}
+                                  disabled={isFollowingUpdate}
+                                  color={isFollowing ? 'inherit': 'primary'}>
+                                     {isFollowing ? 'Dejar de seguir': 'Seguir'}
                                  </Button>
                             )}
                         </Box>
 
                         <Box sx={{display:'flex', justifyContent:{xs:'center', sm:'flex-start'}, gap:3 }}>
-                            <Typography variant='body1'><strong>{userData?.userPostsCount || 0}</strong> Posts </Typography>
+                             <Typography variant='body1'><strong>{userData?.userPostsCount || 0}</strong> Publicaciones </Typography>
                             <Typography variant='body1'><strong>{userData?.followers?.length || 0 }</strong> Seguidores </Typography>
                             <Typography variant='body1'><strong>{userData?.following?.length || 0}</strong> Siguiendo </Typography>
                         </Box>
@@ -153,7 +161,7 @@ const Profile: React.FC = ()=> {
                                 {userData?.bio || 'Sin biografia' }
                             </Typography>
                         ): (
-                            <TextField fullWidth multiline rows={3} variant='outlined' label="bio"
+                             <TextField fullWidth multiline rows={3} variant='outlined' label="Biografía"
                             value={userData?.bio || ''}
                             onChange={(e)=> setUserData({...userData, bio: e.target.value})}
                             />
@@ -165,7 +173,7 @@ const Profile: React.FC = ()=> {
             </Paper>
 
             <Divider sx={{my: 4}}>
-                <Typography variant='h6' color='text.secondary' sx={{px:2}}>POSTS</Typography>
+                 <Typography variant='h6' color='text.secondary' sx={{px:2}}>PUBLICACIONES</Typography>
             </Divider>
 
             <Grid sx={{xs:12}}>
