@@ -178,7 +178,7 @@ const Auth: React.FC = () => {
           >
             <TextField
               id="outline-required1"
-              label="Correo electrónico"
+              label="Correo electronico"
               type="email"
               name="email"
               value={signInForm.email}
@@ -256,7 +256,7 @@ const Auth: React.FC = () => {
             />
             <TextField
               id="outline-required5"
-              label="Correo electrónico"
+              label="Correo electronico"
               type="email"
               name="email"
               value={signUpForm.email}
