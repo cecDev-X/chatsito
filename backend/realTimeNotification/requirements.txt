@@ -1,6 +1,0 @@
-fastapi
-uvicorn
-grpcio
-grpcio-tools
-protobuf
-websockets

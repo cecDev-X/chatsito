@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: chatsito-realtime-notification-spring
+
+server:
+  port: ${NOTIFICATION_WS_PORT:8088}
+
+legacy:
+  notification-grpc:
+    port: ${NOTIFICATION_GRPC_PORT:8090}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: chatsito-realtime-chat-spring
+
+server:
+  port: ${CHAT_WS_PORT:8001}
+
+legacy:
+  chat-grpc:
+    host: ${CHAT_GRPC_HOST:localhost}
+    port: ${CHAT_GRPC_PORT:5001}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
