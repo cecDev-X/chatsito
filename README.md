@@ -2,14 +2,14 @@
 ## Integrantes:
 ### -Castellanos Rios Carlos Eduardo
 ### -Esperanza Chavez Edwin Alexis
-# 🐐 CHATSito - Plataforma de Red Social
+#  CHATSito - Plataforma de Red Social
 
-## 📖 Descripción del proyecto
+##  Descripción del proyecto
 **CHATSito** es una aplicación web interactiva orientada a conectar personas a través de una red social dinámica. El sistema permite a los usuarios compartir estados y publicaciones (con o sin imágenes), interactuar mediante comentarios y reacciones (likes), y descubrir nuevos perfiles mediante un panel de sugerencias. 
 
 La plataforma está diseñada con una experiencia de usuario (UX) fluida, incorporando un menú lateral de navegación intuitivo (Inicio, Perfil, Mensajes, Notificaciones) y un sistema de "Modo Oscuro" para mejorar la accesibilidad y comodidad visual del usuario.
 
-## 🛠 Tecnologías usadas
+##  Tecnologías usadas
 *(Nota: Ajusta este listado según tu stack técnico final)*
 - **Frontend:** React.js, TypeScript
 - **Backend:** Java Spring Boot
@@ -60,3 +60,7 @@ Sigue estos pasos para levantar el proyecto en tu entorno local:
 - **Tablero de GitHub Projects**: [Ver Tablero de Gestión (Kanban)](https://github.com/users/cecDev-X/projects/1/views/1)
 
 - **Diseño en Figma**: [Ver Prototipos y UI de CHATSito](https://www.figma.com/design/cPgFUICHY3quhiMnamB4YJ/DISE%C3%91O-CHATSITO?node-id=0-1&t=Fd8PJmdwIb9J8Bd9-1)
+
+
+<img width="1600" height="1106" alt="Code_Generated_Image" src="https://github.com/user-attachments/assets/dc0aea9b-ba30-4b8d-9c8e-23181dc7da63" />
+
