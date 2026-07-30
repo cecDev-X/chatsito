@@ -128,7 +128,7 @@ const NavBar: React.FC<{ id?: string}> = ({id})=> {
                   <SearchIcon />
                 </SearchIconWrapper>
              <StyledInputBase
-             placeholder='Search...'
+             placeholder=''
              value={search}
              onChange={(e)=> setSearch(e.target.value)}
              onKeyDown={handleKeySearch}
